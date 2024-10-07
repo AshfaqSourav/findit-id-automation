@@ -5,7 +5,7 @@
     
     test.beforeAll(async () => {
         fs.writeFileSync('./LoginAuth.json', '{}');
-        await globalSetup('email1'); // Pass 'email1' to use that email
+        await globalSetup('email1');
     });
 
     test.describe("Add Product to Findit", () => {
@@ -21,12 +21,8 @@
         } else {
         console.error('Element not found');
         }
-        // await loginPage.acceptCookies();
-        // await loginPage.loginEmail(config.credentials.email1);
-        // await page.waitForTimeout(3000);
-        // await loginPage.loginEmailOtp(config.credentials.otp);
-        // await page.waitForTimeout(3000);
     });
+
     test("Add product after successful login", async ({ page , addProductPage }) => {
         await addProductPage.sellitPage1Details();
         await page.waitForTimeout(15000);

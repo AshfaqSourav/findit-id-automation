@@ -10,11 +10,8 @@ test.beforeAll(async () => {
   if (fs.existsSync(lockFilePath)) {
     fs.unlinkSync(lockFilePath);
     console.log('Lock file deleted, will run global setup again.');
-}
-  // await globalSetup('email1');
-    // Clear the LoginAuth.json file before running tests
-    // fs.writeFileSync('./LoginAuth.json', '{}'); // Clear the file (reset to empty JSON)
-    // await globalSetup('email1');
+    }
+ 
   });
 
 
@@ -22,9 +19,6 @@ test.describe("Login to Findit", () => {
   test.beforeEach(async ({  loginPage }) => {
     await loginPage.visit();
     await loginPage.acceptCookies();
-    // await loginPage.loginEmail(config.credentials.email1)
-    // // await loginPage.waitForTimeout(3000);
-    // await loginPage.loginEmailOtp(config.credentials.otp);
 
   });
   

@@ -3,11 +3,30 @@ const { config } = require('../config/testConfig.js');
 const fs = require('fs');
 const path = require('path'); 
 const lockFilePath = path.resolve(__dirname, './setup-completed.lock');
+const loginAuthPath = path.resolve(__dirname, '../LoginAuth.json');
 
 async function globalSetup(emailKey) {
     console.log('Input emailKey:', emailKey);
+
+    let isLoginAuthEmpty = false;
+    if (!fs.existsSync(loginAuthPath)) {
+        console.log('LoginAuth.json not found. Proceeding with global setup...');
+        isLoginAuthEmpty = true;
+    } else {
+        const loginAuthData = fs.readFileSync(loginAuthPath, 'utf-8');
+        if (loginAuthData.trim() === '{}' || loginAuthData.trim() === '') {
+            console.log('LoginAuth.json is empty. Proceeding with global setup...');
+            isLoginAuthEmpty = true;
+        }
+    }
+
+    // If LoginAuth.json is empty, delete the lock file to force setup to run
+    if (isLoginAuthEmpty && fs.existsSync(lockFilePath)) {
+        fs.unlinkSync(lockFilePath);
+        console.log('Deleted setup-completed.lock as LoginAuth.json was empty.');
+    }
    // Check if the lock file exists
-   if (fs.existsSync(lockFilePath)) {
+   if (!isLoginAuthEmpty && fs.existsSync(lockFilePath)) {
     console.log('Global setup already completed. Skipping...');
     return;
     }
@@ -16,16 +35,13 @@ async function globalSetup(emailKey) {
     const context = await browser.newContext();
     const page = await context.newPage();
     
-    await page.goto('https://base99.findit.id/');
-    // await page.timeout(3000);
+    await page.goto('/');
     await page.getByRole('button', { name: 'Allow Cookies' }).click();
   
     // Login steps
     await page.getByText('Login').nth(3).click();
     await page.getByRole('button', { name: 'Continue with Email' }).click();
     await page.locator('#email').click();
-    // await page.locator('#email').fill('ashfaq.ahmed@findit.id');
-    // await page.locator('#email').fill(config.credentials.email3);
     const email = config.credentials[emailKey];
     console.log('Email:', email);
 

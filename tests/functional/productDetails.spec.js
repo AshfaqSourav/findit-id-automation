@@ -11,7 +11,7 @@ test.beforeAll(async () => {
         console.log('Lock file deleted, will run global setup again.');
     }
     fs.writeFileSync('./LoginAuth.json', '{}');
-    await globalSetup('email3'); // Pass 'email1' to use that email
+    await globalSetup('email3'); 
 });
 
 test.describe("Navigate to Product Details Page", () => {
