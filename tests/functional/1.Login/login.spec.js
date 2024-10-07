@@ -1,7 +1,6 @@
 process.env.SKIP_GLOBAL_SETUP = 'true';
 import { test } from "../../../lib/BaseTest.js";
 import { config  } from "../../../config/testConfig.js";
-import {globalSetup} from '../../../utils/global-setup.js'; 
 const fs = require('fs');
 const path = require('path'); 
 const lockFilePath = path.resolve(__dirname, '../../config/setup-completed.lock');

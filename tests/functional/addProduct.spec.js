@@ -1,3 +1,4 @@
+process.env.SKIP_GLOBAL_SETUP = 'true';
     import fs from 'fs';
     import { test } from "../../lib/BaseTest.js";
     import { config } from "../../config/testConfig.js";
@@ -5,7 +6,7 @@
     
     test.beforeAll(async () => {
         fs.writeFileSync('./LoginAuth.json', '{}');
-        await globalSetup('email1');
+        await globalSetup('email1'); // Pass 'email1' to use that email
     });
 
     test.describe("Add Product to Findit", () => {
@@ -22,7 +23,7 @@
         console.error('Element not found');
         }
     });
-
+    
     test("Add product after successful login", async ({ page , addProductPage }) => {
         await addProductPage.sellitPage1Details();
         await page.waitForTimeout(15000);

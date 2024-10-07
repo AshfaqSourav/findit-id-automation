@@ -3,7 +3,7 @@ import { expect } from "@playwright/test";
 import { config } from "../config/testConfig";
 // import { test } from "../lib/BaseTest";
 // import { LoginPage } from "./LoginPage";
-import { getRandomImage } from '../utils/randomValue';
+import { getRandomImage , generateRandomName } from '../utils/randomValue';
 // import path from 'path';
 
 const MailSlurp = require('mailslurp-client').MailSlurp;
@@ -20,6 +20,7 @@ export class NewUserLoginPage {
     this.newUserCreateProfileCrossBtn= page.locator('.sc-12f5973e-0 kdtDWT icon-wrapper -wrapper')
     this.errorLbl = page.locator('.sc-6870bbef-3');
     this.errorToastLbl= page.locator("div[role='alert'] div:nth-child(2)");
+    this.reUploadBtn= page.getByRole('button', { name: 'Re-upload' });
 
 
   }
@@ -28,23 +29,13 @@ export class NewUserLoginPage {
     await this.page.goto('/');
   }
 
-  async newUserLoginDetails(fullname){
+  async newUserLoginDetails(){
+    const fullname = await generateRandomName();
+    console.log('Fullname:', fullname);
     await this.newUserLoginFullNameTxt.fill(fullname);
     await this.uploadRandomImage();
     await this.newUserCreateProfileBtn.click();
   }
-
-  // async newUserLoginDetailsTxt(fullname){
-  //   await this.newUserLoginFullNameTxt.fill(fullname);
-  // }
-
-  // async newUserLoginDetailsImage(){
-  //   await this.uploadRandomImage();
-  // }
-
-  // async newUserLoginDetailsCreateBtn(){
-
-  // }
 
 
   async uploadRandomImage() {
@@ -81,5 +72,14 @@ export class NewUserLoginPage {
     await expect(this.errorLbl).toBeVisible();
     expect(await this.errorLbl.textContent()).toEqual(
       "Required field");
+   }
+   async reUploadBtnCheck (){
+    const fullname = await generateRandomName();
+    console.log('Fullname:', fullname);
+    await this.newUserLoginFullNameTxt.fill(fullname);
+    await this.uploadRandomImage();
+    await expect(this.reUploadBtn).toBeVisible();
+    await this.newUserCreateProfileBtn.click();
+    
    }
 }
