@@ -29,7 +29,6 @@ export class LoginPage {
     await this.allowCookiesBtn.click();
   }
   async loginEmail(username) {
-    
     await this.loginLnk.click();
     await this.continueWithEmailBtn.click();
     await this.emailTxt.fill(username);
@@ -37,8 +36,8 @@ export class LoginPage {
     
 
   }
-  async loginEmailOtp( password) {
-
+  async loginEmailOtp(password) {
+    
     await this.otp1Txt.fill(password && password.length>0?password.charAt(0):'');
     await this.otp2Txt.fill(password && password.length>1?password.charAt(1):'');
     await this.otp3Txt.fill(password && password.length>2?password.charAt(2):'');
