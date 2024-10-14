@@ -19,7 +19,7 @@ This open-source project was created during discovery of best-fit tool for Icon 
 ```
 git clone https://github.com/AshfaqSourav/findit-id-automation.git
 ```
-* `cd` into `tests` and run the below commmands:
+* `cd` into `tests/functional` and run the below commmands:
 ```
 npm ci
 npx playwright install
