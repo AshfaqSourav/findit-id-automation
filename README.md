@@ -17,9 +17,9 @@ This open-source project was created during discovery of best-fit tool for Icon 
 
 * Clone e2e-tests repository using following command:
 ```
-git clone git@github.com:mahnoorfatiima/Playwright-Automation.git
+git clone https://github.com/AshfaqSourav/findit-id-automation.git
 ```
-* `cd` into `Playwright-Automation` and run the below commmands:
+* `cd` into `tests/functional` and run the below commmands:
 ```
 npm ci
 npx playwright install
