@@ -1,8 +1,8 @@
 export const config = {
   "VF_PROD": "https://findit.id",
   "VF_QA": "https://base99.findit.id",
-  "CM_PROD": "https://api.caremerge.com",
-  "CM_QA": "https://api.caremerge.net",
+  "CM_PROD": "https://medusa.findit.id",
+  "CM_QA": "https://base99.ops.findit.id",
   "CM_LOC": "https://base77.findit.id",
 
 
