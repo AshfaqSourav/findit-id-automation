@@ -6,7 +6,7 @@ process.env.SKIP_GLOBAL_SETUP = 'true';
     
     test.beforeAll(async () => {
         fs.writeFileSync('./LoginAuth.json', '{}');
-        await globalSetup('email1'); // Pass 'email1' to use that email
+        await globalSetup('email3'); 
     });
 
     test.describe("Add Product to Findit", () => {
@@ -26,7 +26,7 @@ process.env.SKIP_GLOBAL_SETUP = 'true';
     
     test("Add product after successful login", async ({ page , addProductPage }) => {
         await addProductPage.sellitPage1Details();
-        await page.waitForTimeout(15000);
+        await page.waitForTimeout(25000);
         await addProductPage.clickNext();
         await addProductPage.sellitPage2Details();
         await page.waitForTimeout(2000);
