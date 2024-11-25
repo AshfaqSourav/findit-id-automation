@@ -7,6 +7,7 @@ export class LoginOpsPage {
     this.context = context;
     this.usernameTxt= page.getByPlaceholder('Enter your username')
     this.passwordTxt= page.getByPlaceholder('Enter your password')
+    this.signInBtn= page.getByRole('button', { name: 'Sign in' })
 
 
   }
@@ -17,5 +18,6 @@ export class LoginOpsPage {
   async login(){
     await this.usernameTxt.fill(config.credentials.opsUsername)
     await this.passwordTxt.fill(config.credentials.opsPassward1)
+    await this.signInBtn.click();
   }
 }

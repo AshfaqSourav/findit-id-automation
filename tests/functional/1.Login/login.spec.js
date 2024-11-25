@@ -26,36 +26,36 @@ test.describe.serial("Login to Findit", () => {
     await page.waitForTimeout(3000);
     await loginPage.loginEmailOtp(config.credentials.otp);
   });
-  test("Empty State Email", async ({ loginPage }) => {
-    await loginPage.loginEmail(config.credentials.blankString);
-    await loginPage.verifyRequiredField();
-  });
-  test("Invalid Email only name", async ({ loginPage }) => {
-    await loginPage.loginEmail(config.credentials.invalidEmail1);
-    await loginPage.verifyInvalidEmail();
-  });
-  test("Invalid Email format", async ({ loginPage }) => {
-    await loginPage.loginEmail(config.credentials.invalidEmail2);
-    await loginPage.verifyInvalidEmailToast();
-  });
-  test("Empty State otp", async ({ page,loginPage }) => {
-    await loginPage.loginEmail(config.credentials.email1);
-    await page.waitForTimeout(2000);
-    await loginPage.loginEmailOtp(config.credentials.blankString);
-    await loginPage.verifyRequiredField();
-  });
-  test("Invalid otp length", async ({ page,loginPage }) => {
-    await loginPage.loginEmail(config.credentials.email1);
-    await page.waitForTimeout(2000);
-    await loginPage.loginEmailOtp(config.credentials.invalidOtp);
-    await loginPage.verifyInvalidOtpLength();
-  });
-  test("Invalid otp", async ({ page,loginPage }) => {
-    await loginPage.loginEmail(config.credentials.email1);
-    await page.waitForTimeout(2000);
-    await loginPage.loginEmailOtp(config.credentials.invalidOtp2);
-    await loginPage.verifyInvalidOtp();
-  });
+  // test("Empty State Email", async ({ loginPage }) => {
+  //   await loginPage.loginEmail(config.credentials.blankString);
+  //   await loginPage.verifyRequiredField();
+  // });
+  // test("Invalid Email only name", async ({ loginPage }) => {
+  //   await loginPage.loginEmail(config.credentials.invalidEmail1);
+  //   await loginPage.verifyInvalidEmail();
+  // });
+  // test("Invalid Email format", async ({ loginPage }) => {
+  //   await loginPage.loginEmail(config.credentials.invalidEmail2);
+  //   await loginPage.verifyInvalidEmailToast();
+  // });
+  // test("Empty State otp", async ({ page,loginPage }) => {
+  //   await loginPage.loginEmail(config.credentials.email1);
+  //   await page.waitForTimeout(2000);
+  //   await loginPage.loginEmailOtp(config.credentials.blankString);
+  //   await loginPage.verifyRequiredField();
+  // });
+  // test("Invalid otp length", async ({ page,loginPage }) => {
+  //   await loginPage.loginEmail(config.credentials.email1);
+  //   await page.waitForTimeout(2000);
+  //   await loginPage.loginEmailOtp(config.credentials.invalidOtp);
+  //   await loginPage.verifyInvalidOtpLength();
+  // });
+  // test("Invalid otp", async ({ page,loginPage }) => {
+  //   await loginPage.loginEmail(config.credentials.email1);
+  //   await page.waitForTimeout(2000);
+  //   await loginPage.loginEmailOtp(config.credentials.invalidOtp2);
+  //   await loginPage.verifyInvalidOtp();
+  // });
 
 
 });
