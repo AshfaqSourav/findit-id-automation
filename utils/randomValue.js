@@ -42,18 +42,36 @@ export function getRandomProductName() {
   }
 
   export function getRandomOption() {
-    const options = ['#BRAND_NEW', '#LIKE_NEW', '#WELL_USED', '#HEAVILY_USED'];
+    const options = ['Brand new Unused, possibly with original packaging/tags.',
+                    'Like new Barely used, looks almost new.',
+                    'Lightly used Minor signs of wear, well-maintained.',
+                    'Well used Shows light wear, minor flaws.',
+                    'Heavily used Clearly used, visible flaws/defects.'];
     const randomIndex = Math.floor(Math.random() * options.length);
     return options[randomIndex];
   }
 
   export   function generateRandomNumber() {
     // Generate a random number between 11000 and 99999
-    const min = 10000;
-    const max = 999999999;
-    const randomNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+    const fixedNumbers = [10000, 10100, 10050];
+    const randomIndex = Math.floor(Math.random() * fixedNumbers.length);
+    const randomNumber = fixedNumbers[randomIndex];
   
     return randomNumber;
-
-   
   }
+  export async function clickRandomRating(page) {
+    // Array of title text for star ratings
+    const ratings = [
+      '1 out of 5', 
+      '2 out of 5', 
+      '3 out of 5', 
+      '4 out of 5', 
+      '5 out of 5'
+    ];
+  
+    // Randomly select an index for the rating
+    const randomIndex = Math.floor(Math.random() * ratings.length);
+  
+    // Locate and click the random star rating
+    await page.getByTitle(ratings[randomIndex]).locator('path').first();
+  }  

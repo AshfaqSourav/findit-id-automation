@@ -17,7 +17,7 @@
 //     const segment = fs.readFileSync('segment.txt', 'utf8');
 //     config.productSegment = segment; 
 //   });
-// oooo
+// assasassssa
 //   test("Visit Product Details Page using stored URL", async ({ page }) => {
 //     // Construct the full product URL using the base URL from config and the stored segment
 //     const fullProductUrl = `${config.VF_QA}/product/${config.productSegment}`;

@@ -11,6 +11,7 @@ export class AddProductPage {
     this.namePlaceholderTxt = page.getByPlaceholder('Name'); 
     this.categoryDropdown = page.locator('div').filter({ hasText: /^Select category$/ }).nth(1);
     this.subCategoryDropdown = page.locator('div').filter({ hasText: /^Select sub category$/ }).nth(1);
+    this.selectConditionDropDown = page.getByPlaceholder('Select condition');
     this.nextBtn = page.getByRole('button', { name: 'Next' });
     this.askingPriceNum= page.getByPlaceholder('0.00');
     this.locationTxt= page.getByPlaceholder('Location');
@@ -35,7 +36,7 @@ async clickNext(){
 }
 async sellitPage2Details(){
     await this.productPrice();
-    await this.locationTxt.fill('jaka', { timeout:5000 });
+    await this.locationTxt.fill('jakar', { timeout:6000 });
     
 }
 async locationDropdown(){
@@ -82,8 +83,18 @@ async uploadRandomImage() {
     }
 }
 async selectRandomProductCondition() {
-    const randomOption = getRandomOption();  
-    await this.page.locator(randomOption).check(); 
+    // const randomOption = getRandomOption();  
+    // await this.page.locator(randomOption).check(); 
+    const randomOption = getRandomOption();
+    
+    // Click on the condition dropdown to open options
+    await this.selectConditionDropDown.click();
+    
+    // Select the randomly chosen option
+    await this.page.getByRole('button', { name: randomOption }).click();
+
+    console.log(`Selected condition: ${randomOption}`);
+  
 }
 async productPrice(){
     const randomNum = generateRandomNumber();
