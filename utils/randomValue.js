@@ -53,7 +53,7 @@ export function getRandomProductName() {
 
   export   function generateRandomNumber() {
     // Generate a random number between 11000 and 99999
-    const fixedNumbers = [10000, 10100, 10050];
+    const fixedNumbers = [40000, 45500, 50000];
     const randomIndex = Math.floor(Math.random() * fixedNumbers.length);
     const randomNumber = fixedNumbers[randomIndex];
   
