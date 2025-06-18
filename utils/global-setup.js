@@ -8,7 +8,7 @@ const loginAuthPath = path.resolve(__dirname, '../LoginAuth.json');
 async function globalSetup(emailKey) {
     console.log('Input emailKey:', emailKey);
 
-    let isLoginAuthEmpty = false;
+    let isLoginAuthEmpty ;
     if (!fs.existsSync(loginAuthPath)) {
         console.log('LoginAuth.json not found. Proceeding with global setup...');
         isLoginAuthEmpty = true;
@@ -57,7 +57,9 @@ async function globalSetup(emailKey) {
     // OTP inputs
     await page.locator("(//input[@placeholder='-'])[1]").fill('7');
     await page.locator('input:nth-child(2)').fill('2');
-    await page.locator("body > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > input:nth-child(3)").fill('7');
+    // this.otp3Txt = page.locator('input.sc-351d33f8-1.dUdBjV').nth(2);
+
+    await page.locator('input.sc-351d33f8-1.dUdBjV').nth(2).fill('7');
     await page.locator('input:nth-child(4)').fill('2');
     await page.locator('input:nth-child(5)').fill('7');
     await page.locator('input:nth-child(6)').fill('2');
@@ -65,7 +67,9 @@ async function globalSetup(emailKey) {
     await page.waitForTimeout(5000);
 
     // Ensure login was successful
-    await page.waitForSelector('.sc-fad81cfc-2 > .sc-12f5973e-0 > .icon > path', { timeout: 10000 });
+    // await page.waitForSelector('.sc-fad81cfc-2 > .sc-12f5973e-0 > .icon > path', { timeout: 10000 });
+        await page.waitForSelector('.sc-93b4d862-2', { timeout: 10000 });
+
 
     // Check and rewrite URL if needed
     const currentUrl = page.url();

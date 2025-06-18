@@ -4,10 +4,10 @@ process.env.SKIP_GLOBAL_SETUP = 'true';
     import { config } from "../../config/testConfig.js";
     import globalSetup from '../../utils/global-setup.js'; 
     
-    // test.beforeAll(async () => {
-    //     fs.writeFileSync('./LoginAuth.json', '{}');
-    //     await globalSetup('email3'); 
-    // });
+    test.beforeAll(async () => {
+        fs.writeFileSync('./LoginAuth.json', '{}');
+        await globalSetup('email3'); 
+    });
 
     test.describe("Add Product to Findit", () => {
     
