@@ -1,21 +1,21 @@
-process.env.SKIP_GLOBAL_SETUP = 'true';
+process.env.SKIP_GLOBAL_SETUP = 'false';
     import fs from 'fs';
     import { test } from "../../lib/BaseTest.js";
     import { config } from "../../config/testConfig.js";
     import globalSetup from '../../utils/global-setup.js'; 
     
-    test.beforeAll(async () => {
-        fs.writeFileSync('./LoginAuth.json', '{}');
-        await globalSetup('email3'); 
-    });
+    // test.beforeAll(async () => {
+    //     fs.writeFileSync('./LoginAuth.json', '{}');
+    //     await globalSetup('email3'); 
+    // });
 
     test.describe("Add Product to Findit", () => {
     
     test.beforeEach(async ({ page , loginPage }) => {
         await loginPage.visit();
         await page.waitForTimeout(3000);
-        await page.waitForSelector('.sc-fad81cfc-2 > .sc-12f5973e-0 > .icon > path', { timeout: 10000 });
-        const element = await page.$('.sc-fad81cfc-2 > .sc-12f5973e-0 > .icon > path');
+        await page.waitForSelector('.sc-93b4d862-2', { timeout: 10000 });
+        const element = await page.$('.sc-93b4d862-2');
         if (element) {
         const isVisible = await element.isVisible();
         console.log('Element is visible:', isVisible);

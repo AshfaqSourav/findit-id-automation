@@ -1,9 +1,9 @@
 export const config = {
-  "VF_PROD": "https://findit.id",
-  "VF_QA": "https://base99.findit.id",
-  "CM_PROD": "https://medusa.findit.id",
-  "CM_QA": "https://base99.ops.findit.id",
-  "CM_LOC": "https://base77.findit.id",
+  "FI_PROD": "https://findit.id",
+  "FI_QA": "https://base99.findit.id",
+  "FI_DEV": "https://base77.findit.id",
+  "OPS_PROD": "https://medusa.findit.id",
+  "OPS_QA": "https://base99.ops.findit.id",
 
 
   "credentials": {

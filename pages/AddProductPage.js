@@ -1,6 +1,8 @@
 import { expect } from "@playwright/test";
 import { config } from "../config/testConfig";
 import { getRandomImage ,getRandomProductName , getRandomOption , generateRandomNumber} from '../utils/randomValue';
+import {getValidPriceFromStored,extractAndSaveDynamicPrice} from '../utils/addProductUtils.js';
+
 
 export class AddProductPage {
   constructor(page, context) {
@@ -13,13 +15,16 @@ export class AddProductPage {
     this.subCategoryDropdown = page.locator('div').filter({ hasText: /^Select sub category$/ }).nth(1);
     this.selectConditionDropDown = page.getByPlaceholder('Select condition');
     this.nextBtn = page.getByRole('button', { name: 'Next' });
-    this.askingPriceNum= page.getByPlaceholder('0.00');
+    this.askingPriceNum= page.locator('#price');
     this.locationTxt= page.getByPlaceholder('Location');
     this.locationOptionList= page.locator("div[class='sc-e88ca585-5 jQtCoB'] div:nth-child(1)")
     this.postListingForFreeBtn= page.getByRole('button', { name: 'Post listing for free' });
     this.successListingPageProductClick = page.locator('img').nth(3);
     this.errorLbl = page.locator('.sc-6870bbef-3');
     this.errorToastLbl= page.locator("div[role='alert'] div:nth-child(2)");
+    this.priceNote = page.getByText('Products under Rp 50000 are for direct purchase only.')
+    this.fixedTag = page.getByText('Fixed');
+    this.negoDaysTitle = page.getByText('Negotiation expiry date');
 
 
   }
@@ -32,13 +37,23 @@ async sellitPage1Details(){
     await this.selectRandomProductCondition();
 }
 async clickNext(){
-    await this.nextBtn.click();
+
+    await this.nextBtn.click({ timeout:10000 });
 }
-async sellitPage2Details(){
-    await this.productPrice();
-    await this.locationTxt.fill('jakar', { timeout:6000 });
-    
+
+async sellitPage2Details() {
+  await this.productPrice(40000);
+  await extractAndSaveDynamicPrice(this.priceNote);
+  const { validPrice, negoPrice } = getValidPriceFromStored();
+  await this.askingPriceNum.clear();
+  await this.askingPriceNum.fill(validPrice.toString());
+  await this.fixedTag.waitFor({ timeout: 2000 });
+  await this.askingPriceNum.clear();
+  await this.askingPriceNum.fill(negoPrice.toString());
+  await this.negoDaysTitle.waitFor({ timeout: 2000 });
+  await this.locationTxt.fill('jakar', { timeout: 6000 });
 }
+
 async locationDropdown(){
     await this.locationOptionList.click();
 }
@@ -96,10 +111,14 @@ async selectRandomProductCondition() {
     console.log(`Selected condition: ${randomOption}`);
   
 }
-async productPrice(){
-    const randomNum = generateRandomNumber();
-    await this.askingPriceNum.fill(randomNum.toString())
+// async productPrice(){
+//     const randomNum = generateRandomNumber();
+//     await this.askingPriceNum.fill(randomNum.toString())
+// }
+async productPrice(price) {
+  await this.askingPriceNum.fill(price.toString());
 }
+
 async getSegmentFromUrl() {
     const currentUrl = this.page.url();
     const urlSegments = currentUrl.split('/').filter(segment => segment !== '');
