@@ -24,7 +24,7 @@ process.env.SKIP_GLOBAL_SETUP = 'true';
         }
     });
     
-    test("Add product after successful login", async ({ page , addProductPage }) => {
+    test("@smoke A - Add product after successful login ", async ({ page , addProductPage }) => {
         await addProductPage.sellitPage1Details();
         await page.waitForTimeout(25000);
         await addProductPage.clickNext();

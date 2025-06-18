@@ -45,7 +45,7 @@ npm install -D allure-playwright
 * By default tests run in headless mode if you want to run in headed browser add `--headed` at the end on your command
 
   * For example use `npx cross-env ENV=FI_PROD playwright test --headed`
-
+npx cross-env ENV=FI_QA playwright test addProduct.spec.js --grep="@smoke" --headed
 
 #### Test Recording
 
