@@ -11,18 +11,18 @@ process.env.SKIP_GLOBAL_SETUP = 'true';
 
     test.describe("Add Product to Findit", () => {
     
-    test.beforeEach(async ({ page , loginPage }) => {
-        await loginPage.visit();
-        await page.waitForTimeout(3000);
-        await page.waitForSelector('.sc-93b4d862-2', { timeout: 10000 });
-        const element = await page.$('.sc-93b4d862-2');
-        if (element) {
-        const isVisible = await element.isVisible();
-        console.log('Element is visible:', isVisible);
-        } else {
-        console.error('Element not found');
-        }
-    });
+    // test.beforeEach(async ({ page , loginPage }) => {
+    //     await loginPage.visit();
+    //     await page.waitForTimeout(3000);
+    //     await page.waitForSelector('.sc-93b4d862-2', { timeout: 10000 });
+    //     const element = await page.$('.sc-93b4d862-2');
+    //     if (element) {
+    //     const isVisible = await element.isVisible();
+    //     console.log('Element is visible:', isVisible);
+    //     } else {
+    //     console.error('Element not found');
+    //     }
+    // });
     
     test("Add product after successful login", async ({ page , addProductPage }) => {
         await addProductPage.sellitPage1Details();
