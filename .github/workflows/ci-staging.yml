@@ -1,0 +1,116 @@
+name: Staging CI/CD
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ✅ Checkout your repository
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+       # ✅ Setup Node.js
+      - name: Setup NodeJS
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      # ✅ Install dependencies
+      - name: Install dependencies
+        run: npm ci
+
+      # ✅ Build project (if applicable)
+      - name: Build project (if applicable)
+        run: npm run build --if-present
+
+      # ✅ Install Playwright browsers
+      - name: Install Playwright Browsers
+        run: npx playwright install 
+
+      # ✅ Cache Allure CLI (Prevents downloading Allure every run)
+      - name: Cache Allure CLI
+        id: cache-allure
+        uses: actions/cache@v3
+        with:
+          path: /opt/allure-2.24.0
+          key: allure-${{ runner.os }}-2.24.0
+          restore-keys: allure-${{ runner.os }}-
+
+      - name: Install Allure CLI
+        run: |
+          echo "📦 Installing Allure CLI..."
+          sudo apt update
+          sudo apt install -y curl unzip
+
+          # ✅ Download a fixed version instead of latest
+          echo "📥 Downloading Allure (Fixed Version)..."
+          curl -L -o allure.tgz https://github.com/allure-framework/allure2/releases/download/2.24.0/allure-2.24.0.tgz
+
+          echo "📂 Extracting Allure..."
+          tar -zxvf allure.tgz -C /opt/ || { echo "❌ Extraction failed!"; exit 1; }
+
+          echo "🔗 Creating Symlink for Allure..."
+          sudo ln -s /opt/allure-2.24.0/bin/allure /usr/local/bin/allure
+
+          echo "✅ Installed Allure CLI Version: $(allure --version)"
+
+      - name: Clear Previous Allure Results
+        run: |
+          echo "🧹 Cleaning previous Allure results..."
+          rm -rf allure-results allure-report allure-history || true
+          mkdir -p allure-results allure-report allure-history  # ✅ Ensure fresh directories exist
+
+      # ✅ Run Playwright tests
+      - name: Run Playwright Tests
+        run: npx cross-env ENV=FI_QA playwright test
+
+      # # ✅ Upload Playwright HTML Report (always run, even if tests fail)
+      # - name: Upload Playwright HTML Report
+      #   if: always()
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: playwright-report
+      #     path: playwright-report
+
+      # # ✅ Upload Playwright Videos (always run)
+      # - name: Upload Playwright Videos
+      #   if: always()
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: playwright-videos
+      #     path: test-results/**/video.webm
+      
+      - name: Generate Fresh Allure Report
+        if: always()
+        run: |
+          echo "📊 Generating Allure Report..."
+          allure generate allure-results --clean -o allure-report  # ✅ Generate new report
+          ls -lah allure-report
+
+      - name: Upload Allure Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-report
+          path: allure-report
+
+      # ✅ Upload Allure Report Videos (from allure-report)
+      - name: Upload Allure Report Videos
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: allure-videos
+          path: allure-report/data/attachments/*.webm
+
+      - name: Upload Failure Screenshots
+        uses: actions/upload-artifact@v4
+        if: always()
+        continue-on-error: true
+        with:
+          name: failure-screenshots
+          path: allure-report/data/attachments/*.png  # ✅ Upload screenshots if they exist
+          retention-days: 7

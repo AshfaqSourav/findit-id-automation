@@ -4,14 +4,14 @@ const { defineConfig, devices, chromium } = require('@playwright/test');
 import { config } from "./config/testConfig.js";
 
 
-const ENV = process.env.ENV || 'VF_QA';
-// const ENV = process.env.ENV || 'CM_LOC';
+const ENV = process.env.ENV || 'FI_QA';
+// const ENV = process.env.ENV || 'FI_DEV';
 /**
  * Read environment variables from file.
  * https://github.com/motdotla/dotenv
  */
 // require('dotenv').config();
-if (!ENV || ![`VF_PROD`, `VF_QA`, `CM_PROD`, `CM_QA`, `CM_LOC`].includes(ENV)) {
+if (!ENV || ![`FI_PROD`, `FI_QA`, `OPS_PROD`, `OPS_QA`, `FI_DEV`].includes(ENV)) {
   console.log(`Please provide a correct environment value from testConfig`);
   process.exit();
 }
@@ -43,7 +43,11 @@ module.exports = defineConfig({
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
   /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+  // reporter: 'html',
+  reporter: [
+    ['list'],
+    ['allure-playwright']
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
@@ -51,6 +55,7 @@ module.exports = defineConfig({
     browserName: 'chromium',
     headless: false,
     screenshot: 'only-on-failure',
+    video:'on',
     /* Base URL to use in actions like `await page.goto('/')`. */
     // baseURL: 'http://localhost:3000',
 

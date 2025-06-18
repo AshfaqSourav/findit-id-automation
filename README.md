@@ -23,27 +23,28 @@ git clone https://github.com/AshfaqSourav/findit-id-automation.git
 ```
 npm ci
 npx playwright install
+npm install -D allure-playwright
 ```
 
 ## Playwright Commands
 
-* To run all tests use `npx cross-env ENV=VF_PROD playwright test` This would run all tests on VF production environment
+* To run all tests use `npx cross-env ENV=FI_PROD playwright test` This would run all tests on VF production environment
 
 * You can change environment as per the requirement. Following are the configured environment values:
 
-  * `VF_PROD`, `VF_QA`, `CM_PROD`, `CM_QA`, `CM_LOC`
-  * `VF_PROD`, `VF_QA` point to one domain and `CM_PROD`, `CM_QA`, `CM_LOC` point to different domain
+  * `FI_PROD`, `FI_QA`, `OPS_PROD`, `OPS_QA`, `FI_DEV`
+  * `FI_PROD`, `FI_QA` point to one domain and `OPS_PROD`, `OPS_QA`, `FI_DEV` point to different domain
 
 
-* To run a single test spec file use `npx cross-env ENV=VF_PROD playwright test login.spec.js`
+* To run a single test spec file use `npx cross-env ENV=FI_PROD playwright test login.spec.js`
 
-* To run multiple test spec files use `npx cross-env ENV=VF_PROD playwright test login.spec.js addTemplate.spec.js`
+* To run multiple test spec files use `npx cross-env ENV=FI_PROD playwright test login.spec.js addTemplate.spec.js`
 
-* To run a single test inside spec file use test title `npx cross-env ENV=VF_PROD playwright test -g "Unsuccessful login"`
+* To run a single test inside spec file use test title `npx cross-env ENV=FI_PROD playwright test -g "Unsuccessful login"`
 
 * By default tests run in headless mode if you want to run in headed browser add `--headed` at the end on your command
 
-  * For example use `npx cross-env ENV=VF_PROD playwright test --headed`
+  * For example use `npx cross-env ENV=FI_PROD playwright test --headed`
 
 
 #### Test Recording
@@ -63,7 +64,13 @@ npx playwright install
 * Now, you can view allure report using `allure serve`
 
 <img width="1435" alt="allure-report" src="https://github.com/caremerge/e2e-tests/assets/56622464/7ac741c8-45f4-453a-a596-748cc7b0dfc4">
-  
+
+#### Allure Reports
+
+* npx allure generate ./allure-results --clean -o ./allure-report
+* npx allure open ./allure-report
+
+
 ## Key Findings
 
 * **Speed Comparison:** Playwright took ~28s, ~31s, ~33s  to run all 3 tests and averaged ~31 seconds. It was even more faster with paralell execution
