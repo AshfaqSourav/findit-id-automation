@@ -1,4 +1,4 @@
-process.env.SKIP_GLOBAL_SETUP = 'false';
+process.env.SKIP_GLOBAL_SETUP = 'true';
     import fs from 'fs';
     import { test } from "../../lib/BaseTest.js";
     import { config } from "../../config/testConfig.js";
