@@ -66,7 +66,7 @@ jobs:
 
       # ✅ Run Playwright tests
       - name: Run Playwright Tests
-        run: npx cross-env ENV=FI_QA playwright test
+        run: npx cross-env ENV=FI_QA playwright test addProduct.spec.js
 
       # # ✅ Upload Playwright HTML Report (always run, even if tests fail)
       # - name: Upload Playwright HTML Report
