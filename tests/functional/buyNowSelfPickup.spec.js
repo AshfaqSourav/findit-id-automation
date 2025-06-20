@@ -27,7 +27,7 @@ test.describe("Navigate to Product Details Page", () => {
   });
 
   test("Buy now", async ({ context , page , productDetailsPage, loginOpsPage }) => {
-    const fullProductUrl = `${config.VF_QA}/product/${config.productSegment}`;
+    const fullProductUrl = `${config.FI_QA}/product/${config.productSegment}`;
     console.log(`Navigating to: ${fullProductUrl}`);
     await page.goto(fullProductUrl);
     await page.waitForTimeout(4000); 
@@ -35,7 +35,7 @@ test.describe("Navigate to Product Details Page", () => {
     await productDetailsPage.buyNowFlow();
 
     const newTab = await context.newPage();
-    const fullOpsPanelUrl = `${config.CM_QA}`;
+    const fullOpsPanelUrl = `${config.OPS_QA}`;
     await newTab.goto(fullOpsPanelUrl); 
     console.log("Navigated to Ops panel product page in a new tab.");
     await page.waitForTimeout(3000);
@@ -43,7 +43,7 @@ test.describe("Navigate to Product Details Page", () => {
     console.log("Successfully logged into the Ops panel in the new tab.");
     await newTab.waitForTimeout(3000);
 
-    const opsProductPageUrl = `${config.CM_QA}/products/${config.productSegment}`;
+    const opsProductPageUrl = `${config.OPS_QA}/products/${config.productSegment}`;
     await newTab.goto(opsProductPageUrl);
     console.log(`Navigated to: ${opsProductPageUrl}`);
     await newTab.waitForTimeout(3000);

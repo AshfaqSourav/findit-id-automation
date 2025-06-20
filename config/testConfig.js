@@ -18,7 +18,8 @@ export const config = {
     "invalidOtp": "123",
     "invalidOtp2": "123456",
     "opsUsername": "findit",
-    "opsPassward1": "49MGcxL8?Cf&R"
+    "opsPassward1": "49MGcxL8?Cf&R",
+    "addressDetails": "Road Number 9, House No:567"
   },
   "mailslurpApiKey": "44a83e0f8906dc2cdeb344cfd6c4926a1db3585067307f8b5d5bb39c5f57557e",
   "minTimeout": 2000,

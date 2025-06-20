@@ -14,8 +14,7 @@ export function getRandomImage() {
         'one.jpeg',
         'two.jpg',
         'three.jpeg',
-        'four.jpeg',
-        'five.jpeg'
+        'four.jpeg'
     ];
     const randomIndex = Math.floor(Math.random() * images.length);
     return path.join(__dirname, 'images', images[randomIndex]); 

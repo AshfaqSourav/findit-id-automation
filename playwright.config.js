@@ -53,7 +53,7 @@ module.exports = defineConfig({
     /* Maximum time each action such as `click()` can take. Defaults to 0 (no limit). */
     actionTimeout: 0,
     browserName: 'chromium',
-    headless: false,
+    headless: true,
     screenshot: 'only-on-failure',
     video:'on',
     /* Base URL to use in actions like `await page.goto('/')`. */
@@ -62,6 +62,18 @@ module.exports = defineConfig({
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'retain-on-failure', //trace will only show when test is failed
     storageState: './LoginAuth.json', 
+    // Set geolocation coordinates
+    geolocation: { latitude: 23.8103, longitude: 90.4125 }, // Example: Dhaka
+
+    // Grant only geolocation permission
+    permissions: ['geolocation'],
+
+    // Required for Chromium-based browsers
+    launchOptions: {
+      args: [
+        '--enable-geolocation', // explicitly enable geolocation
+      ],
+    },
   },
 
   /* Configure projects for major browsers */
