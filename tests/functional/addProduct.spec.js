@@ -6,7 +6,7 @@ process.env.SKIP_GLOBAL_SETUP = 'true';
     
     test.beforeAll(async () => {
         fs.writeFileSync('./LoginAuth.json', '{}');
-        await globalSetup('email3'); 
+        await globalSetup('email1'); 
     });
 
     test.describe("Add Product to Findit", () => {
@@ -26,17 +26,16 @@ process.env.SKIP_GLOBAL_SETUP = 'true';
     
     test("@smoke A - Add product after successful login ", async ({ page , addProductPage }) => {
         await addProductPage.sellitPage1Details();
-        await page.waitForTimeout(25000);
+        await page.waitForTimeout(30000);
         await addProductPage.clickNext();
         await addProductPage.sellitPage2Details();
         await page.waitForTimeout(2000);
-        await addProductPage.locationDropdown();
+        await addProductPage.newSetLocation();
         await page.waitForTimeout(3000);
         await addProductPage.postListing();
         await page.waitForTimeout(5000);
 
         const segment = await addProductPage.getSegmentFromUrl();
-
         fs.writeFileSync('segment.txt', config.productSegment, 'utf8');
     });
     });
