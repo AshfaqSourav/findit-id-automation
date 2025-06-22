@@ -3,7 +3,6 @@ const { defineConfig, devices, chromium } = require('@playwright/test');
 
 import { config } from "./config/testConfig.js";
 
-
 const ENV = process.env.ENV || 'FI_QA';
 // const ENV = process.env.ENV || 'FI_DEV';
 /**
@@ -22,7 +21,7 @@ console.log(ENV + '-------------------------');
  */
 
 module.exports = defineConfig({
-  // globalSetup: require.resolve('./config/global-setup.js'),
+  globalSetup: require.resolve('./utils/global-setup.js'),
   testDir: './tests',
   /* Maximum time one test can run for. */
   timeout: 0,
@@ -61,7 +60,6 @@ module.exports = defineConfig({
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'retain-on-failure', //trace will only show when test is failed
-    storageState: './LoginAuth.json', 
     // Set geolocation coordinates
     geolocation: { latitude: 23.8103, longitude: 90.4125 }, // Example: Dhaka
 
@@ -74,6 +72,7 @@ module.exports = defineConfig({
         '--enable-geolocation', // explicitly enable geolocation
       ],
     },
+    storageState: './LoginAuth_default.json', 
   },
 
   /* Configure projects for major browsers */

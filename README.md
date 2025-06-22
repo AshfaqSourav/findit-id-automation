@@ -1,11 +1,35 @@
-# Playwright-Automation
-Basic Template for Playwright Automation Tests in Javascript
+## ✅ Project Highlights
 
-This open-source project was created during discovery of best-fit tool for Icon web application
-<div align="center">
-  <img src="https://www.perfecto.io/sites/default/files/image/2022-09/social-blog-cypress-vs-playwright.jpg"><br>
-</div>
+### 🚀 Environment-Specific Test Execution
+- Supported execution across **Dev**, **Staging**, and **Production** environments.
 
+### 🧩 Scalable Test Design
+- Followed the **Page Object Model (POM)** for maintainable and modular test architecture.
+- Enabled **tag-based test execution** using annotations like `@Smoke`, `@Sanity`, and `@Regression`.
+- Implemented **priority-based execution** for test control.
+
+### 🛠️ Test Enhancements
+- Efficient **session handling** for login/auth workflows.
+- Added **retry logic** and **soft assertions** to manage flaky tests and ensure test continuity.
+
+### 📸 Reporting & Debugging
+- Integrated with **Allure Reports**:
+  - Captures **video recordings** and **screenshots** on test failures.
+  - Provides interactive, visual reports for easier debugging.
+
+### ⚙️ CI/CD Integration with GitHub Actions
+- Configured CI/CD pipelines for **Dev**, **Staging**, and **Production** environments.
+- Enabled **dependency caching** for faster pipeline runs.
+- Sends **automated email reports** with allure and playwright report:
+  - Test summaries
+  - Failure details
+  - Attached videos and screenshots for failed tests
+
+## Code-Coverage
+```
+npm run test:coverage
+npm run coverage:report
+```
 
 ## Pre-requisites
 
@@ -23,7 +47,6 @@ git clone https://github.com/AshfaqSourav/findit-id-automation.git
 ```
 npm ci
 npx playwright install
-npm install -D allure-playwright
 ```
 
 ## Playwright Commands
@@ -43,9 +66,10 @@ npm install -D allure-playwright
 * To run a single test inside spec file use test title `npx cross-env ENV=FI_PROD playwright test -g "Unsuccessful login"`
 
 * By default tests run in headless mode if you want to run in headed browser add `--headed` at the end on your command
-
   * For example use `npx cross-env ENV=FI_PROD playwright test --headed`
-npx cross-env ENV=FI_QA playwright test addProduct.spec.js --grep="@smoke" --headed
+
+* To run a specific test file with a tag filter (e.g., `@smoke`) in a headed browser, use:  
+  `npx cross-env ENV=FI_QA playwright test addProduct.spec.js --grep="@smoke" --headed`
 
 #### Test Recording
 

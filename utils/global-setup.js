@@ -2,89 +2,61 @@ const { chromium } = require('@playwright/test');
 const { config } = require('../config/testConfig.js');
 const fs = require('fs');
 const path = require('path');
-const lockFilePath = path.resolve(__dirname, './setup-completed.lock');
-const loginAuthPath = path.resolve(__dirname, '../LoginAuth.json');
+const { LoginPage } = require('../pages/LoginPage.js');
 
-async function globalSetup(emailKey) {
-    console.log('Input emailKey:', emailKey);
+async function globalSetup() {
+  const ENV = process.env.ENV || 'FI_QA';
+  const BASE_URL = config[ENV];
 
-    let isLoginAuthEmpty ;
-    if (!fs.existsSync(loginAuthPath)) {
-        console.log('LoginAuth.json not found. Proceeding with global setup...');
-        isLoginAuthEmpty = true;
-    } else {
-        const loginAuthData = fs.readFileSync(loginAuthPath, 'utf-8');
-        if (loginAuthData.trim() === '{}' || loginAuthData.trim() === '') {
-            console.log('LoginAuth.json is empty. Proceeding with global setup...');
-            isLoginAuthEmpty = true;
-        }
+  if (!BASE_URL) {
+    console.error(`❌ Invalid ENV: ${ENV}. Please check testConfig.js`);
+    process.exit(1);
+  }
+
+  console.log(`${ENV} -------------------------`);
+
+  const browser = await chromium.launch({ headless: false });
+  const usersToLogin = ['email1', 'email2'];
+
+  for (const emailKey of usersToLogin) {
+    const email = config.credentials[emailKey];
+    const loginAuthPath = path.resolve(__dirname, `../LoginAuth_${emailKey}.json`);
+    const lockFilePath = path.resolve(__dirname, `../locks/setup-${emailKey}.lock`);
+
+    if (fs.existsSync(loginAuthPath) && fs.existsSync(lockFilePath)) {
+      console.log(`✅ ${emailKey}: Login session already exists. Skipping.`);
+      continue;
     }
 
-    // If LoginAuth.json is empty, delete the lock file to force setup to run
-    if (isLoginAuthEmpty && fs.existsSync(lockFilePath)) {
-        fs.unlinkSync(lockFilePath);
-        console.log('Deleted setup-completed.lock as LoginAuth.json was empty.');
-    }
-    // Check if the lock file exists
-    if (!isLoginAuthEmpty && fs.existsSync(lockFilePath)) {
-        console.log('Global setup already completed. Skipping...');
-        return;
-    }
-
-    const browser = await chromium.launch({ headless: true });
+    console.log(`🔐 Logging in as ${emailKey}: ${email}`);
     const context = await browser.newContext();
     const page = await context.newPage();
+    const loginPage = new LoginPage(page);
 
-    await page.goto('/');
+    await page.goto(BASE_URL);
     await page.getByRole('button', { name: 'Allow Cookies' }).click();
+    await loginPage.loginEmail(email);
+    await page.waitForTimeout(1000);
+    await loginPage.loginEmailOtp(config.credentials.otp);
 
-    // Login steps
-    await page.getByText('Login').nth(3).click();
-    await page.getByRole('button', { name: 'Continue with Email' }).click();
-    await page.locator('#email').click();
-    const email = config.credentials[emailKey];
-    console.log('Email:', email);
+    // Confirm login worked (via localStorage user.email)
+    await page.waitForFunction(() => {
+      try {
+        const root = JSON.parse(localStorage.getItem('persist:root') || '{}');
+        const user = JSON.parse(root.user || '{}');
+        return user?.user?.email;
+      } catch {
+        return false;
+      }
+    }, { timeout: 10000 });
 
-    if (!email) {
-        throw new Error(`Email key "${emailKey}" not found in config.`);
-    }
+    await context.storageState({ path: loginAuthPath });
+    fs.mkdirSync(path.dirname(lockFilePath), { recursive: true });
+    fs.writeFileSync(lockFilePath, 'done');
+    await context.close();
+  }
 
-    await page.locator('#email').fill(email);
-
-    await page.getByRole('button', { name: 'Next' }).click();
-    await page.waitForTimeout(3000);
-
-    // OTP inputs
-    await page.locator("(//input[@placeholder='-'])[1]").fill('7');
-    await page.locator('input:nth-child(2)').fill('2');
-    // this.otp3Txt = page.locator('input.sc-351d33f8-1.dUdBjV').nth(2);
-
-    await page.locator('input.sc-351d33f8-1.dUdBjV').nth(2).fill('7');
-    await page.locator('input:nth-child(4)').fill('2');
-    await page.locator('input:nth-child(5)').fill('7');
-    await page.locator('input:nth-child(6)').fill('2');
-    await page.getByRole('button', { name: 'Verify' }).click();
-    await page.waitForTimeout(5000);
-
-    // Ensure login was successful
-    // await page.waitForSelector('.sc-fad81cfc-2 > .sc-12f5973e-0 > .icon > path', { timeout: 10000 });
-        await page.waitForSelector('.sc-93b4d862-2', { timeout: 10000 });
-
-
-    // Check and rewrite URL if needed
-    const currentUrl = page.url();
-    const expectedUrl = 'https://base99.findit.id';
-    if (!currentUrl.startsWith(expectedUrl)) {
-        console.log(`URL mismatch detected. Current URL: ${currentUrl}`);
-        console.log(`Navigating to expected URL: ${expectedUrl}`);
-        await page.goto(expectedUrl);
-    }
-
-    // Save storage state to use for authenticated sessions
-    await page.context().storageState({ path: './LoginAuth.json' });
-
-    await browser.close();
-    fs.writeFileSync(lockFilePath, 'Global setup completed');
+  await browser.close();
 }
 
 module.exports = globalSetup;
