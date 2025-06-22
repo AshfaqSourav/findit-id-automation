@@ -8,8 +8,8 @@ export const config = {
 
   "credentials": {
     "email1": "ashfaq.ahmed@findit.id",
-    "email2": "wrong.username@gmail.com",
-    "email3": "abu.siddik@findit.id",
+    "email3": "wrong.username@gmail.com",
+    "email2": "abu.siddik@findit.id",
     "email4":"ashfaq.ahmed@vivasoftltd.com",
     "invalidEmail1": "ashfaq",
     "invalidEmail2": "ashfaq@gmail",

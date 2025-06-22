@@ -9,17 +9,15 @@ export class LoginPage {
     this.continueWithEmailBtn=page.getByRole('button', { name: 'Continue with Email' });
     this.emailTxt = page.locator('#email');
     this.nextBtn= page.getByRole('button', { name: 'Next' });
-    this.otp1Txt = page.locator("div[class='sc-b7605178-0 bjuisZ'] input:nth-child(1)");
+    this.otp1Txt = page.locator("(//input[@placeholder='-'])[1]");
     this.otp2Txt = page.locator('input:nth-child(2)');
-    this.otp3Txt = page.locator("body > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(3) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > input:nth-child(3)");
+    this.otp3Txt = page.locator('input.sc-351d33f8-1.dUdBjV').nth(2);
     this.otp4Txt = page.locator('input:nth-child(4)');
     this.otp5Txt = page.locator('input:nth-child(5)');
     this.otp6Txt = page.locator('input:nth-child(6)');
     this.verifyBtn= page.getByRole('button', { name: 'Verify' });
     this.errorLbl = page.locator('.sc-6870bbef-3');
     this.errorToastLbl= page.locator("div[role='alert'] div:nth-child(2)");
-
-
   }
 
   async visit() {
@@ -37,7 +35,6 @@ export class LoginPage {
 
   }
   async loginEmailOtp(password) {
-    
     await this.otp1Txt.fill(password && password.length>0?password.charAt(0):'');
     await this.otp2Txt.fill(password && password.length>1?password.charAt(1):'');
     await this.otp3Txt.fill(password && password.length>2?password.charAt(2):'');
@@ -45,8 +42,6 @@ export class LoginPage {
     await this.otp5Txt.fill(password && password.length>4?password.charAt(4):'');
     await this.otp6Txt.fill(password && password.length>5?password.charAt(5):'');
     await this.verifyBtn.click();
-
-
   }
 
   async verifyInvalidEmail(){

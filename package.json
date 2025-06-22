@@ -4,19 +4,26 @@
   "description": "Playwright tests for VoiceFriend",
   "main": "index.js",
   "scripts": {
-    "test": "npx playwright test --reporter=line,allure-playwright",
-    "test:record": "npx playwright codegen",
-    "allureReport": "allure serve",
-    "lint": "./node_modules/eslint/bin/eslint.js --quiet ./tests/ ./pages/ ./config/ ./lib/"
+  "test": "npx playwright test --reporter=line,allure-playwright",
+  "test:record": "npx playwright codegen",
+  "allureReport": "allure serve",
+  "lint": "./node_modules/eslint/bin/eslint.js --quiet ./tests/ ./pages/ ./config/ ./lib/",
+  "test:coverage": "cross-env NODE_ENV=test nyc --reporter=lcov npx playwright test",
+  "coverage:report": "nyc report --reporter=html"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@babel/cli": "^7.27.2",
+    "@babel/core": "^7.27.4",
+    "@babel/preset-env": "^7.27.2",
     "@playwright/test": "^1.53.1",
     "allure-playwright": "^2.15.1",
+    "babel-plugin-istanbul": "^7.0.0",
     "dotenv": "^16.0.3",
-    "eslint": "^8.36.0"
+    "eslint": "^8.36.0",
+    "nyc": "^17.1.0"
   },
   "dependencies": {
     "@faker-js/faker": "^9.0.3",

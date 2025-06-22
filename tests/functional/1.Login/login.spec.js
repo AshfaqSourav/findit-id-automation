@@ -23,7 +23,7 @@ test.describe.serial("Login to Findit", () => {
   
   test("Successful login", async ({page ,loginPage }) => {
     await loginPage.loginEmail(config.credentials.email1);
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(1000);
     await loginPage.loginEmailOtp(config.credentials.otp);
   });
   // test("Empty State Email", async ({ loginPage }) => {

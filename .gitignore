@@ -8,3 +8,9 @@ segment.txt
 test-results/
 utils/price.txt
 utils/setup-completed.lock
+LoginAuth_email1.json
+LoginAuth_email2.json
+locks/
+.qodo/
+.nyc_output
+coverage

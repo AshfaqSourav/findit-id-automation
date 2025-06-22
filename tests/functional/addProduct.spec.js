@@ -1,41 +1,26 @@
-process.env.SKIP_GLOBAL_SETUP = 'true';
-    import fs from 'fs';
-    import { test } from "../../lib/BaseTest.js";
-    import { config } from "../../config/testConfig.js";
-    import globalSetup from '../../utils/global-setup.js'; 
-    
-    test.beforeAll(async () => {
-        fs.writeFileSync('./LoginAuth.json', '{}');
-        await globalSetup('email1'); 
-    });
+import fs from 'fs';
+import { doLogin } from '../../utils/setupLoginTest.js';
+import { config } from '../../config/testConfig.js';
 
-    test.describe("Add Product to Findit", () => {
-    
-    test.beforeEach(async ({ page , loginPage }) => {
-        await loginPage.visit();
-        await page.waitForTimeout(3000);
-        await page.waitForSelector('.sc-93b4d862-2', { timeout: 10000 });
-        const element = await page.$('.sc-93b4d862-2');
-        if (element) {
-        const isVisible = await element.isVisible();
-        console.log('Element is visible:', isVisible);
-        } else {
-        console.error('Element not found');
-        }
-    });
-    
-    test("@smoke A - Add product after successful login ", async ({ page , addProductPage }) => {
-        await addProductPage.sellitPage1Details();
-        await page.waitForTimeout(30000);
-        await addProductPage.clickNext();
-        await addProductPage.sellitPage2Details();
-        await page.waitForTimeout(2000);
-        await addProductPage.newSetLocation();
-        await page.waitForTimeout(3000);
-        await addProductPage.postListing();
-        await page.waitForTimeout(5000);
+const test = doLogin('email1');
 
-        const segment = await addProductPage.getSegmentFromUrl();
-        fs.writeFileSync('segment.txt', config.productSegment, 'utf8');
-    });
-    });
+const ENV = process.env.ENV || 'FI_QA';
+const BASE_URL = config[ENV];
+
+test.describe('Add Product to Findit', () => {
+  test('@smoke Add product after login', async ({ page, addProductPage }) => {
+    await page.goto(BASE_URL);
+    await addProductPage.sellitPage1Details();
+    await page.waitForTimeout(30000);
+    await addProductPage.clickNext();
+    await addProductPage.sellitPage2Details();
+    await page.waitForTimeout(2000);
+    await addProductPage.newSetLocation();
+    await page.waitForTimeout(3000);
+    await addProductPage.postListing();
+    await page.waitForTimeout(5000);
+
+    const segment = await addProductPage.getSegmentFromUrl();
+    fs.writeFileSync('segment.txt', config.productSegment, 'utf8');
+  });
+});
