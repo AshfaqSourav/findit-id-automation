@@ -5,7 +5,7 @@
 
 // test.beforeAll(async () => {
 //     // fs.writeFileSync('./LoginAuth.json', '{}');
-//     await globalSetup('email3'); // Pass 'email1' to use that email
+//     await globalSetup('email3'); // Pass 'buyer' to use that email
 // });
 
 // test.describe("Navigate to Product Details Page", () => {

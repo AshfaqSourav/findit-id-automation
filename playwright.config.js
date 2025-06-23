@@ -59,17 +59,14 @@ module.exports = defineConfig({
     // baseURL: 'http://localhost:3000',
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
-    trace: 'retain-on-failure', //trace will only show when test is failed
-    // Set geolocation coordinates
-    geolocation: { latitude: 23.8103, longitude: 90.4125 }, // Example: Dhaka
-
-    // Grant only geolocation permission
+    trace: 'retain-on-failure',
+    geolocation: { latitude: 23.8103, longitude: 90.4125 },
     permissions: ['geolocation'],
-
-    // Required for Chromium-based browsers
+    viewport: null,
     launchOptions: {
       args: [
-        '--enable-geolocation', // explicitly enable geolocation
+        '--enable-geolocation',
+        '--start-maximized',
       ],
     },
     storageState: './LoginAuth_default.json', 
@@ -79,8 +76,11 @@ module.exports = defineConfig({
   projects: [
     {
       name: "chrome",
-      use: { ...devices["Desktop Chrome"], baseURL: config[ENV] },
-    },
+      // use: { ...devices["Desktop Chrome"], 
+        use: { 
+        baseURL: config[ENV] ,
+    }},
+    // },
     
     /*{
       name: 'firefox',

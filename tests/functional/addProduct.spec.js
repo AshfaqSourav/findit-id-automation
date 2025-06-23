@@ -2,7 +2,7 @@ import fs from 'fs';
 import { doLogin } from '../../utils/setupLoginTest.js';
 import { config } from '../../config/testConfig.js';
 
-const test = doLogin('email1');
+const test = doLogin('seller');
 
 const ENV = process.env.ENV || 'FI_QA';
 const BASE_URL = config[ENV];

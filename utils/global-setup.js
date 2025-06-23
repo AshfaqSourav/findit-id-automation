@@ -16,7 +16,7 @@ async function globalSetup() {
   console.log(`${ENV} -------------------------`);
 
   const browser = await chromium.launch({ headless: false });
-  const usersToLogin = ['email1', 'email2'];
+  const usersToLogin = ['buyer', 'seller'];
 
   for (const emailKey of usersToLogin) {
     const email = config.credentials[emailKey];
