@@ -7,9 +7,9 @@ export const config = {
 
 
   "credentials": {
-    "email1": "ashfaq.ahmed@findit.id",
+    "buyer": "ashfaq.ahmed@findit.id",
     "email3": "wrong.username@gmail.com",
-    "email2": "abu.siddik@findit.id",
+    "seller": "abu.siddik@findit.id",
     "email4":"ashfaq.ahmed@vivasoftltd.com",
     "invalidEmail1": "ashfaq",
     "invalidEmail2": "ashfaq@gmail",
@@ -21,7 +21,7 @@ export const config = {
     "opsPassward1": "49MGcxL8?Cf&R",
     "addressDetails": "Road Number 9, House No:567"
   },
-  "mailslurpApiKey": "44a83e0f8906dc2cdeb344cfd6c4926a1db3585067307f8b5d5bb39c5f57557e",
+  "mailslurpApiKey": "b1c1be0f2bc99964a6d9ccfee78f4f94ee2b6ce7930021a21da0e8db439a854d",
   "minTimeout": 2000,
   "timeout": 5000,
   "maxTimeout": 10000,

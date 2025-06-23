@@ -1,32 +1,18 @@
 // process.env.SKIP_GLOBAL_SETUP = 'true';
 import fs from 'fs';
-import { test } from "../../lib/BaseTest.js";
+// import { test } from "../../lib/BaseTest.js";
 import { config } from "../../config/testConfig.js";
 import globalSetup from '../../utils/global-setup.js';
 import { BuyNowSelfPickup } from "../../pages/BuyNowSelfPickup.js";
-const path = require('path'); 
-const lockFilePath = path.resolve(__dirname, '../../utils/setup-completed.lock');
+import { doLogin } from '../../utils/setupLoginTest.js';
 
-test.beforeAll(async () => {
-    if (fs.existsSync(lockFilePath)) {
-        fs.unlinkSync(lockFilePath);
-        console.log('Lock file deleted, will run global setup again.');
-    }
-    fs.writeFileSync('./LoginAuth.json', '{}');
-    await globalSetup('email4'); 
-});
+const test = doLogin('buyer');
 
 test.describe("Navigate to Product Details Page", () => {
 
-  test.beforeEach(async ({ page, loginPage}) => {
-    // Perform login actions
-    await loginPage.visit();
-    await page.waitForTimeout(3000);
-    const segment = fs.readFileSync('segment.txt', 'utf8');
+  test("Buy it now", async ({ context , page , productDetailsPage, loginOpsPage }) => {
+     const segment = fs.readFileSync('segment.txt', 'utf8');
     config.productSegment = segment; 
-  });
-
-  test("Buy now", async ({ context , page , productDetailsPage, loginOpsPage }) => {
     const fullProductUrl = `${config.FI_QA}/product/${config.productSegment}`;
     console.log(`Navigating to: ${fullProductUrl}`);
     await page.goto(fullProductUrl);
