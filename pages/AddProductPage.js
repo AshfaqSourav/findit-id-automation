@@ -1,8 +1,10 @@
+import fs from 'fs';
+import path from 'path';
 import { expect } from "@playwright/test";
 import { config } from "../config/testConfig";
 import { getRandomImage ,getRandomProductName , getRandomOption , generateRandomNumber} from '../utils/randomValue';
 import {getValidPriceFromStored,extractAndSaveDynamicPrice} from '../utils/addProductUtils.js';
-import { clickUntilVisible } from "./BasePage.js";
+import { clickUntilVisible , captureAndSaveText ,clickUntilVisible2} from "./BasePage.js";
 
 
 export class AddProductPage {
@@ -31,18 +33,27 @@ export class AddProductPage {
     this.addressInput = page.getByRole('textbox', { name: 'Please mention House, Road,'});
     this.shippingAddressTxt = page.getByRole('heading', { name: 'What’s your shipping address?' });
     this.locationChangeBtn = page.getByRole('button', { name: 'Change' });
-
+    this.productTitle = page.locator('h2.sc-74947c2c-0.OsDcO').first();
   }
+
+async uploadProduct(){
+  await this.sellitBtn.click();
+  await this.sellitPage1Details();
+  await this.sellitPage2Details();
+  await this.newSetLocation();
+  await this.postListing();
+}
+
 async sellitPage1Details(){
-    await this.sellitBtn.click();
     await this.uploadRandomImage();
     await this.fillProductNameIfEmpty(); 
     await this.selectCategoryIfEmpty(); 
     await this.selectSubCategoryIfEmpty();
     await this.selectRandomProductCondition();
+    await this.page.waitForTimeout(30000);
+    await this.clickNext(); 
 }
 async clickNext(){
-
     await this.nextBtn.click();
 }
 
@@ -71,10 +82,14 @@ async newSetLocation(){
   await this.addressInput.fill(config.credentials.addressDetails);
 }
 async postListing(){
-    await this.postListingForFreeBtn.click();
-    await this.successListingPageProductClick.click();
+  await expect(this.postListingForFreeBtn).toBeVisible({ timeout: 10000 });
+  await clickUntilVisible2(this.postListingForFreeBtn,this.successListingPageProductClick,this.page,5);
+  await this.successListingPageProductClick.click();
+  await expect(this.productTitle).toBeVisible({ timeout: 10000 });
 }
-
+  async captureProductTitleAndStore() {
+    return await captureAndSaveText(this.productTitle, 'productDetailsProductName.txt');
+  }
 async uploadRandomImage() {
     const fileChooserPromise = this.page.waitForEvent('filechooser');
     await this.uploadImageBtn.click();
@@ -121,7 +136,13 @@ async selectRandomProductCondition() {
 async productPrice(price) {
   await this.askingPriceNum.fill(price.toString());
 }
-
+async storeProductIdFromUrl() {
+  await this.getSegmentFromUrl();
+  const segmentFilePath = path.resolve(__dirname, '../storedValue/productId.txt');
+  fs.writeFileSync(segmentFilePath, config.productSegment, 'utf8');
+  // const segmentFilePath = path.resolve(__dirname, '../../storedValue/productId.txt');
+  //     fs.writeFileSync(segmentFilePath, config.productSegment, 'utf8');
+}
 async getSegmentFromUrl() {
     const currentUrl = this.page.url();
     const urlSegments = currentUrl.split('/').filter(segment => segment !== '');

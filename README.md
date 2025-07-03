@@ -31,6 +31,11 @@ npm run test:coverage
 npm run coverage:report
 ```
 
+# Testcase-Automation-plan-you-can-find-here
+```
+https://docs.google.com/spreadsheets/d/1H58w0gzAoFkI-ybDDAlz6aJaEh5Ygorhzie265uGTXU/edit?pli=1&gid=0#gid=0
+```
+
 ## Pre-requisites
 
 * Playwright requires Node.js version 14 or above. If you are using node version less than 14 then you can download Node.js version 14 or above from nvm (nvm allows you to easily switch between node versions depending on the project)
@@ -39,10 +44,7 @@ npm run coverage:report
 
 ## Setup
 
-* Clone e2e-tests repository using following command:
-```
-git clone https://github.com/AshfaqSourav/findit-id-automation.git
-```
+* Clone e2e-tests repository 
 * `cd` into `tests/functional` and run the below commmands:
 ```
 npm ci
@@ -51,7 +53,8 @@ npx playwright install
 
 ## Playwright Commands
 
-* To run all tests use `npx cross-env ENV=FI_PROD playwright test` This would run all tests on VF production environment
+* To run all tests use `npx cross-env ENV=FI_QA playwright test` This would run all tests on FINDIT staging environment
+* To run all tests use `npx cross-env ENV=FI_PROD playwright test` This would run all tests on FINDIT production environment
 
 * You can change environment as per the requirement. Following are the configured environment values:
 
@@ -59,9 +62,9 @@ npx playwright install
   * `FI_PROD`, `FI_QA` point to one domain and `OPS_PROD`, `OPS_QA`, `FI_DEV` point to different domain
 
 
-* To run a single test spec file use `npx cross-env ENV=FI_PROD playwright test login.spec.js`
+* To run a single test spec file use `npx cross-env ENV=FI_PROD playwright test 1_Login/login.spec.js`
 
-* To run multiple test spec files use `npx cross-env ENV=FI_PROD playwright test login.spec.js addTemplate.spec.js`
+* To run multiple test spec files use `npx cross-env ENV=FI_PROD playwright test 1_Login/login.spec.js addTemplate.spec.js`
 
 * To run a single test inside spec file use test title `npx cross-env ENV=FI_PROD playwright test -g "Unsuccessful login"`
 
@@ -69,25 +72,11 @@ npx playwright install
   * For example use `npx cross-env ENV=FI_PROD playwright test --headed`
 
 * To run a specific test file with a tag filter (e.g., `@smoke`) in a headed browser, use:  
-  `npx cross-env ENV=FI_QA playwright test addProduct.spec.js --grep="@smoke" --headed`
+  `npx cross-env ENV=FI_QA playwright test 2_addProduct.spec.js --grep="@smoke" --headed`
 
-#### Test Recording
+* To debug a specific test file with a tag filter  in a headed browser, use:  
+  `npx cross-env ENV=FI_QA playwright test 2_addProduct.spec.js --headed --debug`
 
-* To record a test use codegen command along with the URL of website you want to record tests for. The URL is optional and you can always run the command without it and then add the URL directly into the browser window instead. 
-
-  * For recording use `npx playwright codegen https://portal.voicefriend.net/login`
-
-
-#### Reports
-
-* Playwright config is setup to use HTML reporter by default. Html reporter show detailed information about the test failures with screenshots and traces. Html report is generated automatically after test run is executed
-<img width="541" alt="html-test-failure" src="https://github.com/caremerge/e2e-tests/assets/56622464/10ac0cea-114b-4999-8fa7-a2d4ed9839a6">
-
-* Use command `--reporter=line,allure-playwright` at the end of your tests to generate data in allure-results folder
-
-* Now, you can view allure report using `allure serve`
-
-<img width="1435" alt="allure-report" src="https://github.com/caremerge/e2e-tests/assets/56622464/7ac741c8-45f4-453a-a596-748cc7b0dfc4">
 
 #### Allure Reports
 
@@ -108,6 +97,15 @@ npx playwright install
 
 * **Navigating to new Domain:** Playwright provides built-in support for cross-domain testing, making it easier to test scenarios that involve interactions between different domains or origins.
 
-## Why Playwright
+## Why Using Playwright in this Project
 
-Based on the specific scope of my web application, Playwright has proven to be the most suitable choice. The selection between Playwright and Cypress depends on the system's requirements, considering factors such as browser support and the complexity of testing scenarios. Playwright's versatility and comprehensive browser compatibility make it ideal for diverse testing needs, while Cypress offers simplicity and ease of use for straightforward scenarios. It is crucial to evaluate these frameworks in relation to your project's unique demands to make an informed decision.
+ Playwright has proven to be the most suitable choice. The selection between Playwright and Cypress depends on the system's requirements, considering factors such as browser support and the complexity of testing scenarios. Playwright's versatility and comprehensive browser compatibility make it ideal for diverse testing needs, while Cypress offers simplicity and ease of use for straightforward scenarios. It is crucial to evaluate these frameworks in relation to your project's unique demands to make an informed decision.
+
+ Based on the specific scope of my web application, my application opens multipletab instance so playwright can handle that seamlessly.
+
+
+ ### Creator of this Project
+
+ * **Name:**-Ashfaq Ahmed
+
+ * **Email:**ashfaq.ahmed@vivasoftltd.com

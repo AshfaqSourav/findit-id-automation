@@ -3,8 +3,7 @@ allure-results/
 allure-report
 node_modules/
 playwright-report/
-LoginAuth.json
-segment.txt
+productId.txt
 test-results/
 utils/price.txt
 utils/setup-completed.lock
@@ -14,3 +13,12 @@ locks/
 .qodo/
 .nyc_output
 coverage
+buyerProtectionBdValue.txt
+chatProductName.txt
+productDetailsProductName.txt
+deliveryChargeBdValue.txt
+productPriceBdValue.txt
+promoBdValue.txt
+subTotalBdValue.txt
+thresholdPrice.txt
+totalPayableValue.txt
