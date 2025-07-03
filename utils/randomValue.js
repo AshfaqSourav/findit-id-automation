@@ -11,10 +11,11 @@ export async function generateRandomName() {
 // Function to generate a random image file path
 export function getRandomImage() {
     const images = [
-        'one.jpeg',
+        'one.jpg',
         'two.jpg',
-        'three.jpeg',
-        'four.jpeg'
+        'three.jpg',
+        'four.jpg',
+        'five.jpg',
     ];
     const randomIndex = Math.floor(Math.random() * images.length);
     return path.join(__dirname, 'images', images[randomIndex]); 

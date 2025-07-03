@@ -5,6 +5,7 @@ export class LoginPage {
     this.page = page;
     this.context = context;
     this.allowCookiesBtn= page.getByRole('button', { name: 'Allow Cookies' });
+    this.moreOptions=page.getByRole('button', { name: 'More login options' })
     this.loginLnk= page.getByText('Login').nth(3);
     this.continueWithEmailBtn=page.getByRole('button', { name: 'Continue with Email' });
     this.emailTxt = page.locator('#email');
@@ -28,6 +29,7 @@ export class LoginPage {
   }
   async loginEmail(username) {
     await this.loginLnk.click();
+    await this.moreOptions.click();
     await this.continueWithEmailBtn.click();
     await this.emailTxt.fill(username);
     await this.nextBtn.click();
@@ -35,6 +37,7 @@ export class LoginPage {
 
   }
   async loginEmailOtp(password) {
+    await expect(this.otp1Txt).toBeVisible();
     await this.otp1Txt.fill(password && password.length>0?password.charAt(0):'');
     await this.otp2Txt.fill(password && password.length>1?password.charAt(1):'');
     await this.otp3Txt.fill(password && password.length>2?password.charAt(2):'');

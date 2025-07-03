@@ -114,3 +114,31 @@ jobs:
           name: failure-screenshots
           path: allure-report/data/attachments/*.png  # ✅ Upload screenshots if they exist
           retention-days: 7
+      
+#for result sent to email configure by own email
+
+      # - name: Install mailx
+      #   run: sudo apt-get install -y mailutils
+
+      # - name: Install jq
+      #   run: sudo apt-get install -y jq
+
+      # - name: Configure mailx for SMTP
+      #   run: |
+      #     echo "set smtp=smtps://smtp.gmail.com:465" >> ~/.mailrc
+      #     echo "set smtp-auth=login" >> ~/.mailrc
+      #     echo "set smtp-auth-user=${{ secrets.SMTP_USERNAME }}" >> ~/.mailrc
+      #     echo "set smtp-auth-password=${{ secrets.SMTP_PASSWORD }}" >> ~/.mailrc
+      #     echo "set ssl-verify=ignore" >> ~/.mailrc
+
+      # - name: Extract Key Test Summary
+      #   run: |
+      #     if [ -f allure-report/widgets/summary.json ]; then
+      #         jq -r '"Report: \(.reportName) | Passed: \(.statistic.passed) | Failed: \(.statistic.failed) | Total: \(.statistic.total)"' allure-report/widgets/summary.json > summary.txt
+      #     else
+      #         echo "No summary found. Check if tests executed correctly." > summary.txt
+      #     fi
+
+      # - name: Send Email with Allure Report
+      #   run: |
+      #     cat summary.txt | mailx -s "Allure Test Report Summary"  ashfaq.ahmed@findit.id
